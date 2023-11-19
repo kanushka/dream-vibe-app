@@ -7,15 +7,15 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:803818332371:android:8da57444fd549b72e53426",
+        "mobilesdk_app_id": "1:803818332371:android:2bacd86de1cbc499e53426",
         "android_client_info": {
-          "package_name": "com.kanushka.dreamcount"
+          "package_name": "com.kanushka.dreamvibe"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAoCqW2urR0mTs0UX_Wx6EGqFZw0-1ULWM"
+          "current_key": "REPLACE_API_KEY"
         }
       ],
       "services": {

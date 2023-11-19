@@ -1,4 +1,4 @@
-package com.kanushka.dreamcount
+package com.kanushka.dreamvibe
 
 import io.flutter.embedding.android.FlutterActivity
 
