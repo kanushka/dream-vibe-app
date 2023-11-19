@@ -36,6 +36,11 @@ class ExercisesRecord extends FirestoreRecord {
   DateTime? get createdTime => _createdTime;
   bool hasCreatedTime() => _createdTime != null;
 
+  // "start_time" field.
+  DateTime? _startTime;
+  DateTime? get startTime => _startTime;
+  bool hasStartTime() => _startTime != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -43,6 +48,7 @@ class ExercisesRecord extends FirestoreRecord {
     _totalTime = castToType<int>(snapshotData['total_time']);
     _type = snapshotData['type'] as String?;
     _createdTime = snapshotData['created_time'] as DateTime?;
+    _startTime = snapshotData['start_time'] as DateTime?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -89,6 +95,7 @@ Map<String, dynamic> createExercisesRecordData({
   int? totalTime,
   String? type,
   DateTime? createdTime,
+  DateTime? startTime,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -96,6 +103,7 @@ Map<String, dynamic> createExercisesRecordData({
       'total_time': totalTime,
       'type': type,
       'created_time': createdTime,
+      'start_time': startTime,
     }.withoutNulls,
   );
 
@@ -110,12 +118,13 @@ class ExercisesRecordDocumentEquality implements Equality<ExercisesRecord> {
     return e1?.calories == e2?.calories &&
         e1?.totalTime == e2?.totalTime &&
         e1?.type == e2?.type &&
-        e1?.createdTime == e2?.createdTime;
+        e1?.createdTime == e2?.createdTime &&
+        e1?.startTime == e2?.startTime;
   }
 
   @override
   int hash(ExercisesRecord? e) => const ListEquality()
-      .hash([e?.calories, e?.totalTime, e?.type, e?.createdTime]);
+      .hash([e?.calories, e?.totalTime, e?.type, e?.createdTime, e?.startTime]);
 
   @override
   bool isValidKey(Object? o) => o is ExercisesRecord;

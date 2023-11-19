@@ -16,21 +16,21 @@ class PredictedScoreRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "score" field.
-  int? _score;
-  int get score => _score ?? 0;
-  bool hasScore() => _score != null;
-
   // "created_time" field.
   DateTime? _createdTime;
   DateTime? get createdTime => _createdTime;
   bool hasCreatedTime() => _createdTime != null;
 
+  // "score" field.
+  double? _score;
+  double get score => _score ?? 0.0;
+  bool hasScore() => _score != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
-    _score = castToType<int>(snapshotData['score']);
     _createdTime = snapshotData['created_time'] as DateTime?;
+    _score = castToType<double>(snapshotData['score']);
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -73,13 +73,13 @@ class PredictedScoreRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createPredictedScoreRecordData({
-  int? score,
   DateTime? createdTime,
+  double? score,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'score': score,
       'created_time': createdTime,
+      'score': score,
     }.withoutNulls,
   );
 
@@ -92,12 +92,12 @@ class PredictedScoreRecordDocumentEquality
 
   @override
   bool equals(PredictedScoreRecord? e1, PredictedScoreRecord? e2) {
-    return e1?.score == e2?.score && e1?.createdTime == e2?.createdTime;
+    return e1?.createdTime == e2?.createdTime && e1?.score == e2?.score;
   }
 
   @override
   int hash(PredictedScoreRecord? e) =>
-      const ListEquality().hash([e?.score, e?.createdTime]);
+      const ListEquality().hash([e?.createdTime, e?.score]);
 
   @override
   bool isValidKey(Object? o) => o is PredictedScoreRecord;

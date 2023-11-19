@@ -31,12 +31,18 @@ class HeartRateRecord extends FirestoreRecord {
   DateTime? get createdTime => _createdTime;
   bool hasCreatedTime() => _createdTime != null;
 
+  // "start_time" field.
+  DateTime? _startTime;
+  DateTime? get startTime => _startTime;
+  bool hasStartTime() => _startTime != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
     _rate = castToType<int>(snapshotData['rate']);
     _restingRate = castToType<int>(snapshotData['resting_rate']);
     _createdTime = snapshotData['created_time'] as DateTime?;
+    _startTime = snapshotData['start_time'] as DateTime?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -82,12 +88,14 @@ Map<String, dynamic> createHeartRateRecordData({
   int? rate,
   int? restingRate,
   DateTime? createdTime,
+  DateTime? startTime,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'rate': rate,
       'resting_rate': restingRate,
       'created_time': createdTime,
+      'start_time': startTime,
     }.withoutNulls,
   );
 
@@ -101,12 +109,13 @@ class HeartRateRecordDocumentEquality implements Equality<HeartRateRecord> {
   bool equals(HeartRateRecord? e1, HeartRateRecord? e2) {
     return e1?.rate == e2?.rate &&
         e1?.restingRate == e2?.restingRate &&
-        e1?.createdTime == e2?.createdTime;
+        e1?.createdTime == e2?.createdTime &&
+        e1?.startTime == e2?.startTime;
   }
 
   @override
-  int hash(HeartRateRecord? e) =>
-      const ListEquality().hash([e?.rate, e?.restingRate, e?.createdTime]);
+  int hash(HeartRateRecord? e) => const ListEquality()
+      .hash([e?.rate, e?.restingRate, e?.createdTime, e?.startTime]);
 
   @override
   bool isValidKey(Object? o) => o is HeartRateRecord;

@@ -26,11 +26,17 @@ class StepsRecord extends FirestoreRecord {
   DateTime? get createdTime => _createdTime;
   bool hasCreatedTime() => _createdTime != null;
 
+  // "start_time" field.
+  DateTime? _startTime;
+  DateTime? get startTime => _startTime;
+  bool hasStartTime() => _startTime != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
     _steps = castToType<int>(snapshotData['steps']);
     _createdTime = snapshotData['created_time'] as DateTime?;
+    _startTime = snapshotData['start_time'] as DateTime?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -74,11 +80,13 @@ class StepsRecord extends FirestoreRecord {
 Map<String, dynamic> createStepsRecordData({
   int? steps,
   DateTime? createdTime,
+  DateTime? startTime,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'steps': steps,
       'created_time': createdTime,
+      'start_time': startTime,
     }.withoutNulls,
   );
 
@@ -90,12 +98,14 @@ class StepsRecordDocumentEquality implements Equality<StepsRecord> {
 
   @override
   bool equals(StepsRecord? e1, StepsRecord? e2) {
-    return e1?.steps == e2?.steps && e1?.createdTime == e2?.createdTime;
+    return e1?.steps == e2?.steps &&
+        e1?.createdTime == e2?.createdTime &&
+        e1?.startTime == e2?.startTime;
   }
 
   @override
   int hash(StepsRecord? e) =>
-      const ListEquality().hash([e?.steps, e?.createdTime]);
+      const ListEquality().hash([e?.steps, e?.createdTime, e?.startTime]);
 
   @override
   bool isValidKey(Object? o) => o is StepsRecord;

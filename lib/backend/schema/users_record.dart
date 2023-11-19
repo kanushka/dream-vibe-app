@@ -66,6 +66,11 @@ class UsersRecord extends FirestoreRecord {
   double get height => _height ?? 0.0;
   bool hasHeight() => _height != null;
 
+  // "notification" field.
+  bool? _notification;
+  bool get notification => _notification ?? false;
+  bool hasNotification() => _notification != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -77,6 +82,7 @@ class UsersRecord extends FirestoreRecord {
     _gender = snapshotData['gender'] as String?;
     _weight = castToType<double>(snapshotData['weight']);
     _height = castToType<double>(snapshotData['height']);
+    _notification = snapshotData['notification'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -123,6 +129,7 @@ Map<String, dynamic> createUsersRecordData({
   String? gender,
   double? weight,
   double? height,
+  bool? notification,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -136,6 +143,7 @@ Map<String, dynamic> createUsersRecordData({
       'gender': gender,
       'weight': weight,
       'height': height,
+      'notification': notification,
     }.withoutNulls,
   );
 
@@ -156,7 +164,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.age == e2?.age &&
         e1?.gender == e2?.gender &&
         e1?.weight == e2?.weight &&
-        e1?.height == e2?.height;
+        e1?.height == e2?.height &&
+        e1?.notification == e2?.notification;
   }
 
   @override
@@ -170,7 +179,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.age,
         e?.gender,
         e?.weight,
-        e?.height
+        e?.height,
+        e?.notification
       ]);
 
   @override
