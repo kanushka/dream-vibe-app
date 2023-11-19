@@ -40,3 +40,5 @@ flutter pub get
 ```
 flutter run
 ```
+
+Make sure to replace all `REPLACE_API_KEY` with Firebase app keys.
