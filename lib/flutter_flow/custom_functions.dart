@@ -29,7 +29,7 @@ int getTotalStepCount(
   return totalSteps;
 }
 
-int newTotalActiveEnergy(
+int getTotalActiveEnergy(
   List<ActiveEnergyRecord>? caloryLIst,
   DateTime now,
 ) {
@@ -78,4 +78,12 @@ int getTotalExerciseTime(
           0, (previousValue, record) => previousValue + record.totalTime) ??
       0;
   return totalTime;
+}
+
+int? getHours(int minutes) {
+  return (minutes / 60).floor();
+}
+
+int getMinutes(int minutes) {
+  return minutes % 60;
 }

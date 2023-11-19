@@ -14,7 +14,6 @@ import 'schema/score_record.dart';
 import 'schema/predicted_score_record.dart';
 import 'schema/distance_record.dart';
 import 'schema/exercises_record.dart';
-import 'schema/stands_record.dart';
 import 'schema/active_energy_record.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -32,7 +31,6 @@ export 'schema/score_record.dart';
 export 'schema/predicted_score_record.dart';
 export 'schema/distance_record.dart';
 export 'schema/exercises_record.dart';
-export 'schema/stands_record.dart';
 export 'schema/active_energy_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
@@ -387,46 +385,6 @@ Future<List<ExercisesRecord>> queryExercisesRecordOnce({
     queryCollectionOnce(
       ExercisesRecord.collection(parent),
       ExercisesRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-/// Functions to query StandsRecords (as a Stream and as a Future).
-Future<int> queryStandsRecordCount({
-  DocumentReference? parent,
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      StandsRecord.collection(parent),
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<StandsRecord>> queryStandsRecord({
-  DocumentReference? parent,
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      StandsRecord.collection(parent),
-      StandsRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<StandsRecord>> queryStandsRecordOnce({
-  DocumentReference? parent,
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      StandsRecord.collection(parent),
-      StandsRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
