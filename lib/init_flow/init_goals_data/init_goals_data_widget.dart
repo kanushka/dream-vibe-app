@@ -83,6 +83,8 @@ class _InitGoalsDataWidgetState extends State<InitGoalsDataWidget> {
       );
     }
 
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)

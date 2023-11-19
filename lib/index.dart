@@ -17,5 +17,4 @@ export '/init_flow/init_health_data/init_health_data_widget.dart'
     show InitHealthDataWidget;
 export '/init_flow/init_goals_data/init_goals_data_widget.dart'
     show InitGoalsDataWidget;
-export '/pages/notifications/notifications_widget.dart'
-    show NotificationsWidget;
+export '/pages/settings/settings_widget.dart' show SettingsWidget;

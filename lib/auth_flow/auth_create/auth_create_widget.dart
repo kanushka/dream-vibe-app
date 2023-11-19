@@ -74,6 +74,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
       );
     }
 
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -468,15 +470,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                             context.pop();
                           }
                           context.pushNamedAuth(
-                            'init_HealthData',
-                            context.mounted,
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.rightToLeft,
-                              ),
-                            },
-                          );
+                              'init_HealthData', context.mounted);
                         },
                         text: 'Create Account',
                         options: FFButtonOptions(

@@ -76,6 +76,8 @@ class _InitHealthDataWidgetState extends State<InitHealthDataWidget> {
       );
     }
 
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -535,15 +537,7 @@ class _InitHealthDataWidgetState extends State<InitHealthDataWidget> {
                                 double.tryParse(_model.heightController.text),
                           ));
 
-                          context.pushNamed(
-                            'init_GoalsData',
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.rightToLeft,
-                              ),
-                            },
-                          );
+                          context.pushNamed('init_GoalsData');
                         },
                         text: 'Add to Profile',
                         options: FFButtonOptions(

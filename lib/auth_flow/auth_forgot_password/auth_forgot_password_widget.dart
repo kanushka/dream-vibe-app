@@ -67,6 +67,8 @@ class _AuthForgotPasswordWidgetState extends State<AuthForgotPasswordWidget> {
       );
     }
 
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)

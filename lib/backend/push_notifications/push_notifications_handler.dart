@@ -124,7 +124,7 @@ final parametersBuilderMap =
   'demoDataGen': ParameterData.none(),
   'init_HealthData': ParameterData.none(),
   'init_GoalsData': ParameterData.none(),
-  'notifications': ParameterData.none(),
+  'settings': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

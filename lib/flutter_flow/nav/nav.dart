@@ -159,10 +159,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => InitGoalsDataWidget(),
         ),
         FFRoute(
-          name: 'notifications',
-          path: '/notifications',
+          name: 'settings',
+          path: '/settings',
           requireAuth: true,
-          builder: (context, params) => NotificationsWidget(),
+          builder: (context, params) => SettingsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

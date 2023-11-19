@@ -7,6 +7,8 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/permissions_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -141,6 +143,81 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
     super.initState();
     _model = createModel(context, () => HomeModel());
 
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (FFAppState().autoSyncData) {
+        _model.lastPredictedScore = await queryPredictedScoreRecordOnce(
+          parent: currentUserReference,
+          queryBuilder: (predictedScoreRecord) =>
+              predictedScoreRecord.orderBy('created_time', descending: true),
+          singleRecord: true,
+        ).then((s) => s.firstOrNull);
+
+        await StepsRecord.createDoc(currentUserReference!).set({
+          ...createStepsRecordData(
+            steps: 10,
+            startTime: _model.lastPredictedScore?.createdTime,
+          ),
+          ...mapToFirestore(
+            {
+              'created_time': FieldValue.serverTimestamp(),
+            },
+          ),
+        });
+
+        await DistanceRecord.createDoc(currentUserReference!).set({
+          ...createDistanceRecordData(
+            startTime: _model.lastPredictedScore?.createdTime,
+            distance: 100.0,
+          ),
+          ...mapToFirestore(
+            {
+              'created_time': FieldValue.serverTimestamp(),
+            },
+          ),
+        });
+
+        await ActiveEnergyRecord.createDoc(currentUserReference!).set({
+          ...createActiveEnergyRecordData(
+            startTime: _model.lastPredictedScore?.createdTime,
+            calories: 5,
+          ),
+          ...mapToFirestore(
+            {
+              'created_time': FieldValue.serverTimestamp(),
+            },
+          ),
+        });
+
+        await SleepRecord.createDoc(currentUserReference!).set({
+          ...createSleepRecordData(
+            startTime: _model.lastPredictedScore?.createdTime,
+            inBed: 200,
+            asleep: 50,
+            awake: 50,
+            deepSleep: 50,
+          ),
+          ...mapToFirestore(
+            {
+              'created_time': FieldValue.serverTimestamp(),
+            },
+          ),
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Succesfully sync with user\'s health matrixes',
+              style: TextStyle(
+                color: FlutterFlowTheme.of(context).primaryText,
+              ),
+            ),
+            duration: Duration(milliseconds: 4000),
+            backgroundColor: FlutterFlowTheme.of(context).secondary,
+          ),
+        );
+      }
+    });
+
     setupAnimations(
       animationsMap.values.where((anim) =>
           anim.trigger == AnimationTrigger.onActionTrigger ||
@@ -166,6 +243,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
         ),
       );
     }
+
+    context.watch<FFAppState>();
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -739,8 +818,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                               valueOrDefault<String>(
                                                 functions
                                                     .getHours(
-                                                        containerSleepRecord!
-                                                            .inBed)
+                                                        containerSleepRecord
+                                                            ?.inBed)
                                                     .toString(),
                                                 '0',
                                               ),
@@ -775,11 +854,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                     8.0, 12.0, 0.0, 12.0),
                                             child: Text(
                                               valueOrDefault<String>(
-                                                functions
-                                                    .getMinutes(
-                                                        containerSleepRecord!
-                                                            .inBed)
-                                                    .toString(),
+                                                formatNumber(
+                                                  functions.getMinutes(
+                                                      containerSleepRecord
+                                                          ?.inBed),
+                                                  formatType: FormatType.custom,
+                                                  format: '00',
+                                                  locale: '',
+                                                ),
                                                 '0',
                                               ),
                                               textAlign: TextAlign.center,
