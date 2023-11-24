@@ -15,6 +15,7 @@ import 'schema/predicted_score_record.dart';
 import 'schema/distance_record.dart';
 import 'schema/exercises_record.dart';
 import 'schema/active_energy_record.dart';
+import 'schema/summary_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +33,7 @@ export 'schema/predicted_score_record.dart';
 export 'schema/distance_record.dart';
 export 'schema/exercises_record.dart';
 export 'schema/active_energy_record.dart';
+export 'schema/summary_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -425,6 +427,43 @@ Future<List<ActiveEnergyRecord>> queryActiveEnergyRecordOnce({
     queryCollectionOnce(
       ActiveEnergyRecord.collection(parent),
       ActiveEnergyRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query SummaryRecords (as a Stream and as a Future).
+Future<int> querySummaryRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      SummaryRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<SummaryRecord>> querySummaryRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      SummaryRecord.collection,
+      SummaryRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<SummaryRecord>> querySummaryRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      SummaryRecord.collection,
+      SummaryRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
