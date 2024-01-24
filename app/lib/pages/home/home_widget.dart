@@ -1,3 +1,5 @@
+import 'package:dream_vibe/custom_code/actions/fetch_health_data_action.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -29,6 +31,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
   late HomeModel _model;
+  late Map<String, dynamic> healthData;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -216,6 +219,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
           ),
         );
       }
+    });
+
+    // Load health data
+    fetchHealthData().then((data) {
+      setState(() {
+        healthData = data;
+      });
     });
 
     setupAnimations(
